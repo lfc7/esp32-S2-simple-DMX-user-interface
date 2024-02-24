@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+<title>DMXui - ArtNet client</title>
+<meta name="viewport" content="width=device-width, initial-scale=0.80, maximum-scale=0.80">
+<meta charset="utf-8">
+<meta http-equiv="Cache-control" content="public">
+<link rel="icon" href="data:,">
+<style>
+body {
+	background-color:#483C32;
+	font-size: 12px;
+	font-family: sans-serif;
+}
+a {
+	text-decoration: none;   
+}
+.dim {
+	width: 400px;
+	margin: auto;
+	text-align: center;
+	background-color:#aaa;
+	color:#000;
+	border-radius: 5px;
+}
+input {
+	text-decoration: none; 
+	margin: auto;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-family: sans-serif;
+	font-size: 14px;
+	/*display: inline;*/
+}
+.class_fct_butt {
+	font-size: 12px;
+	width: 50px;
+	height: 25px;
+}
+.class_h {
+	width: 50px;
+}
+.ok_sta {
+	margin-left: 30px;
+}
+a.dmxlink {
+	text-decoration: none; 
+	font-family: sans-serif;
+	display: inline-block;
+	width: 30px;
+    height: 20px;
+    line-height: 20px;
+	margin-right: 20px;
+	color: #fff;
+	border: 2px solid #aaa;
+	background: #555;
+	border-radius: 3px;
+	}
+	
+.links {
+	width: 400px;
+	margin: 0 auto;
+	text-align: center; 
+}
+</style>
+<script>
+function rebootNOW()
+{
+	location.replace("http://" + window.location.host + "/artnet_client.html?rebootNOW");
+}
+
+function validUniv(el)
+{
+	let scn = prompt("Universe [0:255] :");
+	if(scn.match(/^\d+$/) && scn <= 256 && scn >= 0)
+	{
+		el.value=scn;
+		return true;
+	}else{
+		alert("ERREUR: heure entre 0 et 256");
+		return false;
+	}
+}
+function newArtnet()
+{
+	var res=0;
+	var el=document.getElementById("enableAN");
+	if(el.checked)res=1;
+	var univ=document.getElementById("univAN").value;
+	location.replace("http://" + window.location.host + "/artnet_client.html?enableARTNET=" + res + "&univARTNET=" + univ);
+}
+</script>
+</head>
+<body>
+	<div class="links">
+		<a href="/dimmers.html" class="dmxlink">DIM</a>
+		<a href="/faders.html" class="dmxlink">FAD</a>
+		<a href="/scenes.html" class="dmxlink">SCN</a>
+		<a href="/fx1.html" class="dmxlink">FX1</a>
+		<a href="/fx2.html" class="dmxlink">FX2</a>
+		<a href="/vu.html" class="dmxlink">DMX</a>
+		<a href="/settings.html" class="dmxlink">SET</a>
+	</div>
+	<div style="height:10px;"></div>
+	<div class="dim">
+		<div style="height:5px;"></div>
+		<h2>-  ArtNet-V1 client  -</h2>
+		<div style="margin: auto;">local IP: %IP%</div>
+		<div style="height:10px;"></div>
+	</div>
+
+
+	<div style="height:10px;"></div>
+	<div class="dim">
+		<div style="height:5px;"></div>
+		<div style="width:400px;margin: auto;"><h3>- ArtNet configuration -</h3></div>
+		<div style="width:400px;margin: auto;">If enabled, all others dmx functions are disabled</div>
+		<div style="width:400px;margin: auto;">
+		<label for="enableAN">Enable</label>
+		<input type="checkbox" id="enableAN" class="class_AN" name="enable" %ENABLE%>
+		</div>
+		<div style="width:400px;margin: auto;">
+		<label for="univAN">Universe: </label>
+		<input type="button" id="univAN" class="class_fct_butt" value="%UNIV%" onClick="return validUniv(this)">
+		</div>
+		
+		<input type="button" id="ok_art" class="class_fct_butt" name="save" value="SAVE" onClick="return newArtnet()">
+	</div>
+	<div style="height:20px;"></div>
+	<div class="dim">
+		<div style="height:5px;"></div>
+		<div style="width:400px;margin: auto;"><h3>- Reboot is need to activate new configuration -</h3></div>
+		<div style="width:400px;margin: auto;">All datas not saved will be lost.</div>
+		<input type="button" id="reboot" class="class_fct_butt" style="width:90px;" name="rebootNOW" value="REBOOT!!" onClick="return rebootNOW()">
+	</div>
+
+</body>
+</html>
